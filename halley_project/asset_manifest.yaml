@@ -62,4 +62,9 @@ packs:
       - ~:materialDefinition
       - ~:shader
       - ~:renderGraphDefinition
+
+  - name: meshes
+    matches:
+      - ~:mesh
+
 ...

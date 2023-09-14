@@ -18,4 +18,8 @@ public:
 
 private:
 	std::unique_ptr<World> world;
+
+	std::shared_ptr<MeshRenderer> meshRenderer;
+	Time curTime = 0;
+
 };

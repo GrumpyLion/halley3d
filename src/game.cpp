@@ -51,6 +51,7 @@ ResourceOptions HalleyGame::initResourceLocator(const Path& gamePath, const Path
 			{"shaders.dat", true},
 			{"ui.dat", preloadAll},
 			{"config.dat", true},
+			{"meshes.dat", preloadAll},
 			//{"music.dat", preloadAll},
 			//{"sfx.dat", preloadAll}
 		};

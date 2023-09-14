@@ -3,7 +3,7 @@ entity:
     uuid: 60e84e36-1015-4275-aac3-6faf59cbf7cb
     components:
       - Transform2D:
-          position: [0, 0]
+          position: [300, 0]
           rotation: 0
           scale: [1, 1]
       - Sprite:
@@ -11,7 +11,6 @@ entity:
             material: Halley/Sprite
             tex_image: 3d.png
   - name: camera
-    flags: 2
     uuid: bf8cff89-1b46-49e3-90a2-c77257e07f09
     components:
       - Transform2D:

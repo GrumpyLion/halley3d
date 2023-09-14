@@ -18,10 +18,10 @@ public:
 	bool shouldDrawOutline(const Sprite& sprite) const override;
 	void createServices(World& world, std::shared_ptr<const UIColourScheme> colourScheme, const Prefab& prefab) override;
 
-	Vector2i getGameResolution();
-	Vector2i getScreenResolution() const;
-	Vector2i getUIResolution();
-	float getZoomLevel() const;
+	Vector2i getGameResolution() final;
+	Vector2i getScreenResolution() const final;
+	Vector2i getUIResolution() final;
+	float getZoomLevel() const final;
 
 protected:
 	void onInit(std::shared_ptr<const UIColourScheme> colourScheme) override;
