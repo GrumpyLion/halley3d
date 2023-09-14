@@ -45,6 +45,14 @@ bool GameSceneEditor::shouldDrawOutline(const Sprite& sprite) const
 	return SceneEditor::shouldDrawOutline(sprite);
 }
 
+void GameSceneEditor::createServices(World& world, std::shared_ptr<const UIColourScheme> colourScheme,
+    const Prefab& prefab)
+{
+	screenService = std::make_shared<ScreenService>(this);
+
+    world.addService(screenService);
+}
+
 void GameSceneEditor::onInit(std::shared_ptr<const UIColourScheme> colourScheme)
 {
 	SceneEditor::onInit(colourScheme);
@@ -78,4 +86,24 @@ std::optional<Halley::Vector2f> GameSceneEditor::getWorldOffset() const
 void GameSceneEditor::drawOverlay(Painter& painter, Rect4f view)
 {
 	SceneEditor::drawOverlay(painter, view);
+}
+
+Vector2i GameSceneEditor::getGameResolution()
+{
+	return viewPort;
+}
+
+Vector2i GameSceneEditor::getScreenResolution() const
+{
+	return viewPort;
+}
+
+Vector2i GameSceneEditor::getUIResolution()
+{
+	return getGameResolution();
+}
+
+float GameSceneEditor::getZoomLevel() const
+{
+	return 1.0f;
 }

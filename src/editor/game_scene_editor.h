@@ -3,25 +3,25 @@
 #include <halley.hpp>
 using namespace Halley;
 
-class GameSceneEditor : public SceneEditor
+class GameSceneEditor : public SceneEditor, public IScreenServiceInterface
 {
 public:
 	GameSceneEditor();
 	virtual ~GameSceneEditor();
 
 	std::shared_ptr<UIWidget> makeCustomUI() override;
-
 	void onToolSet(String& tool, String& componentName, String& fieldName) override;
-
 	void setupTools(UIList& toolList, ISceneEditorGizmoCollection& gizmoCollection) override;
-
 	Vector<UIPopupMenuItem> getSceneContextMenu(const Vector2f& mousePos) const override;
-
 	void onSceneContextMenuSelection(const String& id) override;
-
 	void initializeEntityValidator(EntityValidator& validator) override;
-
 	bool shouldDrawOutline(const Sprite& sprite) const override;
+	void createServices(World& world, std::shared_ptr<const UIColourScheme> colourScheme, const Prefab& prefab) override;
+
+	Vector2i getGameResolution();
+	Vector2i getScreenResolution() const;
+	Vector2i getUIResolution();
+	float getZoomLevel() const;
 
 protected:
 	void onInit(std::shared_ptr<const UIColourScheme> colourScheme) override;
@@ -38,5 +38,6 @@ protected:
 	void drawOverlay(Painter& painter, Rect4f view) override;
 
 private:
+	std::shared_ptr<ScreenService> screenService;
 
 };
