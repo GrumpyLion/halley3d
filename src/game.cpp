@@ -31,21 +31,36 @@ int HalleyGame::initPlugins(IPluginRegistry& registry)
 	return HalleyAPIFlags::Video | HalleyAPIFlags::Audio | HalleyAPIFlags::Input | HalleyAPIFlags::Network | HalleyAPIFlags::Platform;
 }
 
-ResourceOptions HalleyGame::initResourceLocator(const Path& gamePath, const Path& assetsPath, const Path& unpackedAssetsPath, ResourceLocator& locator) {
+ResourceOptions HalleyGame::initResourceLocator(const Path& gamePath, const Path& assetsPath, const Path& unpackedAssetsPath, ResourceLocator& locator)
+{
 	constexpr bool localAssets = false;
-	if (localAssets) {
+    if (localAssets) {
 		locator.addFileSystem(unpackedAssetsPath);
-	} else {
-		// other .dat files you may need:
-		// music.dat (importing bg music)
-		// sfx.dat (importing quick sfx)
-		// movie.dat (importing video cutscenes)
-		const String packs[] = { "images.dat", "shaders.dat", "config.dat" };
-		for (auto& pack: packs) {
-			locator.addPack(Path(assetsPath) / pack);
-		}
 	}
-	return {};
+	else {
+		struct PackId {
+			String name;
+			bool preLoad = false;
+		};
+		const bool preloadAll = isDevMode();
+		const PackId packs[] = {
+			{"gameplay.dat", true},
+			{"world.dat", true},
+			{"images.dat", preloadAll},
+			{"imageData.dat", true},
+			{"shaders.dat", true},
+			{"ui.dat", preloadAll},
+			{"config.dat", true},
+			//{"music.dat", preloadAll},
+			//{"sfx.dat", preloadAll}
+		};
+		for (auto& pack : packs) {
+			locator.addPack(Path(assetsPath) / pack.name, "", pack.preLoad);
+		}
+
+		constexpr bool isPC = getPlatform() == GamePlatform::Windows || getPlatform() == GamePlatform::Linux || getPlatform() == GamePlatform::MacOS || getPlatform() == GamePlatform::UWP;
+		return ResourceOptions(isPC, isDevMode());
+	}
 }
 
 String HalleyGame::getName() const
