@@ -5,12 +5,12 @@ void GameStage::init()
 	world = createWorld("stages/game_world");
 	auto factory = EntityFactory(*world, getResources());
 	factory.createScene(getResource<Scene>("hello_world"), true);
+	factory.createEntity("camera");
 
 	world->addService(std::make_shared<ScreenService>(this));
 
-
 	meshRenderer = std::make_shared<MeshRenderer>();
-	meshRenderer->setMesh(getResources().get<Mesh>("helmet.obj"));
+	meshRenderer->setMesh(getResources().get<Mesh>("flight_helmet.glb"));
 }
 
 void GameStage::onFixedUpdate(Time t)
@@ -24,8 +24,6 @@ void GameStage::onVariableUpdate(Time t)
 
 	world->step(TimeLine::VariableUpdate, t);
 
-	meshRenderer->setScale(Vector3f(5,5, 5));
-	meshRenderer->setRotation(Quaternion(Vector3f(1, 0, 0), Angle1f::fromDegrees(90.0f)));
 	meshRenderer->update(t);
 }
 
@@ -35,13 +33,15 @@ void GameStage::onRender(RenderContext& rc) const
 
 	const float c = std::cos(float(curTime));
 	const float s = std::sin(float(curTime));
-	const float r = 200;
-	const Vector3f p = Vector3f(r * s, r * -c, 100.0f);
-	const Vector3f t = Vector3f(0, 0, 50);
-	const auto q = Quaternion::lookAt(t - p, Vector3f(0, 0, 1));
+	const float r = 1.5f;
+	const Vector3f p = Vector3f(r * s, 0.0f, r * -c);
+	const Vector3f t = Vector3f(0, 0, 0);
+	const auto q = Quaternion::lookAt(t - p, Vector3f(0, 1, 0));
 
 	Camera cam;
-	cam.setPosition(p).setRotation(q).setCameraType(CameraType::Perspective).setFieldOfView(Angle1f::fromDegrees(75.0f));
+	cam.setCameraType(CameraType::Perspective).setFieldOfView(Angle1f::fromDegrees(90.0f));
+	cam.setPosition(p);
+	cam.setRotation(q);
 
 	rc.with(cam).bind([&](Painter& painter)
 		{

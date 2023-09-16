@@ -1,0 +1,7 @@
+entity:
+  name: camera
+  uuid: 206a4fda-d3d0-4396-a607-adc22403c4e8
+  components:
+    - Transform2D:
+        {}
+    - Camera: {}
