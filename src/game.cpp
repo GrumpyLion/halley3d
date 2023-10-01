@@ -3,6 +3,7 @@
 
 #include "editor/game_scene_editor.h"
 
+void initMetalPlugin(IPluginRegistry &registry);
 void initOpenGLPlugin(IPluginRegistry &registry);
 void initSDLSystemPlugin(IPluginRegistry &registry, std::optional<String> cryptKey);
 void initSDLAudioPlugin(IPluginRegistry &registry);
@@ -20,6 +21,10 @@ int HalleyGame::initPlugins(IPluginRegistry& registry)
 	initSDLSystemPlugin(registry, {});
 	initSDLAudioPlugin(registry);
 	initSDLInputPlugin(registry);
+
+#ifdef WITH_METAL
+	initMetalPlugin(registry);
+#endif
 
 #ifdef WITH_DX11
 	initDX11Plugin(registry);
